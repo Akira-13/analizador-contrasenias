@@ -6,3 +6,10 @@ La fórmula para calcular la entropía es el logaritmo en base 2 del conjunto de
 Se usará [la base de datos de las 10.000 contraseñas más comunes](https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/10-million-password-list-top-10000.txt) proporcionada por el OWASP para el proyecto SecList.
 
 El asistente virtual debe dar sugerencias sobre cómo mejorar la seguridad de una contraseña, especificar qué elementos la hacen débil, modificar la contraseña con el consentimiento del usuario o cualquier otra funcionalidad que una IA integraría en este analizador.
+
+Por hacer
+- Funcionalidad de diccionarios para analizar subcadenas con respecto a la lista de contraseñas comunes
+- Funcionalidad de detectar secuencias simples en subcadenas
+- Excepciones en caso el usuario ingrese una cadena vacía o el archivo desaparezca
+- Programar el asistente virtual
+- Veintear esta wbd
