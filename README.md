@@ -9,7 +9,7 @@ El asistente virtual debe dar sugerencias sobre cómo mejorar la seguridad de un
 
 Por hacer
 - Funcionalidad de diccionarios para analizar subcadenas con respecto a la lista de contraseñas comunes
-- Funcionalidad de detectar secuencias simples en subcadenas
+- Funcionalidad de detectar secuencias simples en subcadenas (secuencias de teclado como asdfg, iiiiii, 1234; fechas como 20020503, 2002-05-03)
 - Excepciones en caso el usuario ingrese una cadena vacía o el archivo desaparezca
 - Programar el asistente virtual
 - Veintear esta wbd
