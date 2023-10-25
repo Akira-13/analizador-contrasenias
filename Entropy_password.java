@@ -1,31 +1,42 @@
 package arquitectura_proyect;
 
-import java.util.Scanner;
-
 public class Entropy_password implements Total_caracters {
-    static Scanner sc = new Scanner(System.in);
+    static Verificator ver = new Verificator();
+    
     public static void main(String[] args){
-        double entropia;
-        int intentos, diccionario=0, segundosXMillon, total;
-        System.out.print("Ingrese la cadena a analizar: ");
-        Cadena password = new Cadena(sc.nextLine());
+        boolean OnCsv, validator, finisher;
         
-        System.out.println("La cadena contiene: ");
-        System.out.println(password.howManyDigits() + " números");
-        System.out.println(password.howManyLower() + " minúsculas");
-        System.out.println(password.howManyUpper() + " mayúsculas");
-        System.out.println(password.howManySpec() + " caracteres especiales");
+        System.out.print("Hola y bienvenido al analizador de contraseñas, por favor ingrese su contraseña: ");
+        Cadena password = new Cadena(ver.validateString());
+        password.Report();
+        password.Calculate_Entropy();
+        System.out.println(password);
         
-        System.out.println("Se procederá a calcular su entropía en base a los datos dados");
-        total = password.howManyDigits() + password.howManyLower() + password.howManyUpper() + password.howManySpec();
+        OnCsv = Procesor_csv.Is_on_csv(password.return_cadena());
+        if(OnCsv){
+            System.out.println("Su contraseña se encuentra entre las 10 000 contraseñas más comunes del internet, ¿desea un cambio? (y/n)");
+            validator = ver.Y_or_N();
+        }else{
+            System.out.println("El programa cuenta con una opcion de sugeridos en base a la contraseña dada, ¿desea un cambio?");
+            validator = ver.Y_or_N();
+        }
         
-        if(password.hasDigits())diccionario += TOTALDIGITS;
-        if(password.hasLower())diccionario += TOTALLOWER;
-        if(password.hasUpper())diccionario += TOTALUPPER;
-        if(password.hasSpec())diccionario += TOTALSPEC;
-        
-        entropia = total * ((Math.log(diccionario) / BASE2));
-        System.out.println("Se obtuvo la siguiente entropía: " + entropia);
-        
+        while(true){
+            if(validator){
+                Generate_new_password new_password = new Generate_new_password(password.return_cadena());
+                new_password.Caracteristics();
+                new_password.generateNewPassword();
+                System.out.println(new_password);
+                System.out.println("¿Desea realizar nuevamente el proceso de generación?");
+                finisher = ver.Y_or_N();
+                if(!finisher){
+                    System.out.println("Gracias por usar el analizador de contraseñas");
+                    break;
+                }
+            }else{
+                System.out.println("Gracias por usar el analizador de contraseñas");
+                break;
+            }
+        }
     }    
 }
