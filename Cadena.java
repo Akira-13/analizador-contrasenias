@@ -17,19 +17,19 @@ public class Cadena implements Total_caracters{
         }
         
         for(int i = 0; i < length; i++){
-            if( 64 < (int)chain.charAt(i) && (int)chain.charAt(i)< 91){
+            if( (64 < (int)chain.charAt(i) && (int)chain.charAt(i) < 91) || ((int)chain.charAt(i) == 209)){        //Considera "Ñ"
                 numberOfUpper++;
             }
         }
         
         for(int i = 0; i < length; i++){
-            if( 96 < (int)chain.charAt(i) && (int)chain.charAt(i) < 123){
+            if( (96 < (int)chain.charAt(i) && (int)chain.charAt(i) < 123) || ((int)chain.charAt(i) == 241) ){         //Considera "ñ"
                 numberOfLower++;
             }
         }
         
         for(int i = 0; i < length; i++){
-            if( (0 <= (int)chain.charAt(i) && (int)chain.charAt(i) <= 46) || (58 <= (int)chain.charAt(i) && (int)chain.charAt(i) <= 64) || (91 <= (int)chain.charAt(i) && (int)chain.charAt(i) <= 96) || (123 <= (int)chain.charAt(i) && (int)chain.charAt(i) <= 255)){
+            if( (33 <= (int)chain.charAt(i) && (int)chain.charAt(i) <= 47) || (58 <= (int)chain.charAt(i) && (int)chain.charAt(i) <= 64) || (91 <= (int)chain.charAt(i) && (int)chain.charAt(i) <= 96) || (123 <= (int)chain.charAt(i) && (int)chain.charAt(i) <= 126)){
                 numberOfSpec++;
             }
         }
