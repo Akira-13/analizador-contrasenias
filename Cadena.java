@@ -29,7 +29,7 @@ public class Cadena implements Total_caracters{
         }
         
         for(int i = 0; i < length; i++){
-            if( (33 <= (int)chain.charAt(i) && (int)chain.charAt(i) <= 47) || (58 <= (int)chain.charAt(i) && (int)chain.charAt(i) <= 64) || (91 <= (int)chain.charAt(i) && (int)chain.charAt(i) <= 96) || (123 <= (int)chain.charAt(i) && (int)chain.charAt(i) <= 126)){
+            if( (32 <= (int)chain.charAt(i) && (int)chain.charAt(i) <= 47) || (58 <= (int)chain.charAt(i) && (int)chain.charAt(i) <= 64) || (91 <= (int)chain.charAt(i) && (int)chain.charAt(i) <= 96) || (123 <= (int)chain.charAt(i) && (int)chain.charAt(i) <= 126)){
                 numberOfSpec++;
             }
         }
