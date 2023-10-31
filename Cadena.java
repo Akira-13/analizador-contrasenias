@@ -4,6 +4,8 @@ public class Cadena implements Total_caracters{
     private int length, numberDigits = 0, numberOfLower = 0, numberOfUpper = 0, numberOfSpec = 0;
     private boolean digitsExist, lowerExist, upperExist, specExist;
     private double entropia;
+    private int intentos;
+    private int segundos, minutos;
     private String chain;
     
     Cadena(String chain){
@@ -71,6 +73,15 @@ public class Cadena implements Total_caracters{
         if(upperExist) dictionary += TOTALUPPER;
         if(specExist) dictionary += TOTALSPEC;
         entropia = (double)length * ((Math.log(dictionary) / BASE2));
+    }
+
+    public void Calculate_Average_Attempts(){
+        intentos = (int)Math.ceil(Math.pow(2.0,entropia-1));
+    }
+
+    public void Calculate_Time_Per_Million(){
+        segundos = (int)Math.ceil(intentos/1.0e6);
+        minutos = (int)Math.ceil(segundos/60.0);
     }
     
     @Override
