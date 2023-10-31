@@ -10,6 +10,8 @@ public class Entropy_password implements Total_caracters {
         Cadena password = new Cadena(ver.validateString());
         password.Report();
         password.Calculate_Entropy();
+        password.Calculate_Average_Attempts();
+        password.Calculate_Time_Per_Million();
         System.out.println(password);
         
         OnCsv = Procesor_csv.Is_on_csv(password.return_cadena());
