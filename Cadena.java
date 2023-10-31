@@ -5,7 +5,8 @@ public class Cadena implements Total_caracters{
     private boolean digitsExist, lowerExist, upperExist, specExist;
     private double entropia;
     private int intentos;
-    private int segundos, minutos;
+    private int segundos;
+    private float minutos;
     private String chain;
     
     Cadena(String chain){
@@ -81,11 +82,15 @@ public class Cadena implements Total_caracters{
 
     public void Calculate_Time_Per_Million(){
         segundos = (int)Math.ceil(intentos/1.0e6);
-        minutos = (int)Math.ceil(segundos/60.0);
+        minutos = (float)segundos/60.0;
     }
     
     @Override
     public String toString(){
-        return "La contraseña dada posee una entropía de " + entropia;
+        return "La contraseña dada posee una entropía de " + entropia + "\n" +
+                "La contraseña requiere en promedio " + intentos + " para ser vulnerada."+"\n"+
+                "A un millón de intentos por segundo, requiere "+ segundos + " segundo(s)" + 
+                "o " + minutos + "minuto(s)";
+        
     }
 }
