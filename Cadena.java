@@ -1,5 +1,3 @@
-package arquitectura_proyect;
-
 public class Cadena implements Total_caracters{
     private int length, numberDigits = 0, numberOfLower = 0, numberOfUpper = 0, numberOfSpec = 0;
     private boolean digitsExist, lowerExist, upperExist, specExist;
@@ -67,8 +65,9 @@ public class Cadena implements Total_caracters{
         System.out.println(numberOfSpec + " caracteres especiales");
     }
     
-    public void Calculate_Entropy(){
+    public void Calculate_Entropy(int adicional){
         int dictionary = 0;
+        dictionary += adicional;                //Dependiendo de si haya caracteres l33t o mayusculas, añade 1 al diccionario per caracter
         if(digitsExist) dictionary += TOTALDIGITS;
         if(lowerExist) dictionary += TOTALLOWER;
         if(upperExist) dictionary += TOTALUPPER;
