@@ -82,7 +82,7 @@ public class Cadena implements Total_caracters{
 
     public void Calculate_Time_Per_Million(){
         segundos = (int)Math.ceil(intentos/1.0e6);
-        minutos = (float)segundos/60.0;
+        minutos = segundos/60;
     }
     
     @Override
