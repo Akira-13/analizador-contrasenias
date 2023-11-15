@@ -7,31 +7,32 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 
 public class AlgoritmoReconocerSubcadenas extends Utils implements Total_caracters{ 
-//ToDo: Caracteres l33t y alternancias entre mayúsculas y minúsculas
-        int A[] = {-1,-1};
-    static int[] subContComun(Cadena subComun){
-        int[] A ={-1,-1};
+    static int[] subContComun(String subComun){
+        int[] A ={-1,-1,-1};
         try (BufferedReader reader = new BufferedReader(new FileReader("10000passwords.csv"))) {
-            String line;
+            String line, purePassword, pureLine;
+            purePassword = Utils.l33tMayusToMinus(subComun);        //Paso los caracteres l33t a alfabeticos
             String longestString = "";
             while ((line = reader.readLine()) != null) {
-                if(subComun.return_cadena().contains(line) && line.length()>longestString.length()){
-                    longestString = line;
+                pureLine = Utils.l33tMayusToMinus(line);
+                if(purePassword.contains(pureLine) && pureLine.length()>longestString.length()){
+                    longestString = pureLine;
                 }
             }
-            int startIndex = subComun.return_cadena().indexOf(longestString);
+            int startIndex = purePassword.indexOf(longestString);
             int endIndex = startIndex + longestString.length()-1;
             A[0] = startIndex; A[1] = endIndex;
+            A[2] = Utils.countDiff(subComun.substring(startIndex, endIndex+1), longestString);
             return A;
         } catch (IOException e) {e.printStackTrace();}
         return A;
     }
 
-    int[] subFecha(Cadena subFecha){
+    static int[] subFecha(String subFecha){
         int[] A ={-1,-1};
         String regex = "\\b(?:\\d{2}(?:(?:[-/]\\d{2}){1,2}(?:\\d{2}|\\d{4})|\\d{6}))\\b";
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(subFecha.return_cadena());
+        Matcher matcher = pattern.matcher(subFecha);
      
         String[] formats = {"ddMMyy", "ddMMyyyy", "dd/MM/yy", "dd/MM/yyyy", "dd-MM-yy", "dd-MM-yyyy"};
         SimpleDateFormat[] sdfs = new SimpleDateFormat[formats.length];
@@ -45,7 +46,7 @@ public class AlgoritmoReconocerSubcadenas extends Utils implements Total_caracte
             for (SimpleDateFormat sdf : sdfs) {
                 try {
                     sdf.parse(dateStr);         //Botará ParseException si no concuerda con el formato de fecha
-                    int startIndex = subFecha.return_cadena().indexOf(dateStr);
+                    int startIndex = subFecha.indexOf(dateStr);
                     int endIndex = startIndex + dateStr.length()-1;
                     A[0] = startIndex; A[1] = endIndex;
                     return A;
@@ -55,14 +56,14 @@ public class AlgoritmoReconocerSubcadenas extends Utils implements Total_caracte
         return A;
      }
 
-    int[] subAño(Cadena subAño){
+    static int[] subAño(String subAño){
         int A[] = {-1,-1};
         String regex = "\\bd{4}\\b";
-        Matcher matcher = Pattern.compile(regex).matcher(subAño.return_cadena());
+        Matcher matcher = Pattern.compile(regex).matcher(subAño);
         while(matcher.find()){
             int year = Integer.parseInt(matcher.group());
             if(year<=2030 && year>=1000){
-                int startIndex = subAño.return_cadena().indexOf(matcher.group());
+                int startIndex = subAño.indexOf(matcher.group());
                 int endIndex = startIndex + matcher.group().length()-1;
                 A[0] = startIndex; A[1] = endIndex;
                 return A;
@@ -72,25 +73,24 @@ public class AlgoritmoReconocerSubcadenas extends Utils implements Total_caracte
     } 
 
 
-    int[] subSecuencia(Cadena subSecuencia){        
+    static int[] subSecuencia(String subSecuencia){        
     //ToDo: Caracteres l33t y alternancias entre mayúsculas y minúsculas
-    //Limitación: No inlcuye ñ. La subsecuencia "mñop" no será detectada, por ejemplo. 
+    //Limitación: No inlcuye ñ. La subsecuencia "mñop" no será detectada, por ejemplo.
         int A[] = {-1,-1};
-        for(int i=0; i<subSecuencia.cadena_length()-1; i++){
+        for(int i=0; i<subSecuencia.length()-1; i++){
             int j=1;                    //Contador de caracteres
-            char baseChar = subSecuencia.return_cadena().charAt(i);
-            char nextChar = subSecuencia.return_cadena().charAt(i+j);
+            char baseChar = subSecuencia.charAt(i);
+            char nextChar = subSecuencia.charAt(i+j);
             int diff = baseChar-nextChar;
-            if(diff==0) continue;       //Si son los mismos caracteres, puede que se trate de una subrepetición
+            if(diff==0) continue;       //Si son los mismos caracteres, puede que se trate de una repetición
             j++;
-            while(i+j<subSecuencia.cadena_length()){
-                char next1Char = subSecuencia.return_cadena().charAt(i+j);
+            while(i+j<subSecuencia.length()){
+                char next1Char = subSecuencia.charAt(i+j);
                 if(next1Char-nextChar==diff){
                     nextChar = next1Char;
                     j++;
                     continue;
                 }
-                else if()
                 break;
             }
             if(j==2){return A;}         //Una subsecuencia deberá de ser de más de dos caracteres para que sea relevante
@@ -103,8 +103,24 @@ public class AlgoritmoReconocerSubcadenas extends Utils implements Total_caracte
     }
 
 
-    int[] subRepeticion(Cadena subRepeticion){
+    static int[] subRepeticion(String subRepeticion){
         int A[] = {-1,-1};
+        for(int i=0; i<subRepeticion.length()-1; i++){
+            int j=1;                    //Contador de caracteres
+            char baseChar = subRepeticion.charAt(i);
+            char nextChar = subRepeticion.charAt(i+j);
+            if(baseChar!=nextChar){continue;}
+            j++;
+            while(baseChar==nextChar && i+j<subRepeticion.length()){
+                baseChar = nextChar;
+                nextChar = subRepeticion.charAt(i+j);
+                j++;
+            }
+            int startIndex = i;
+            int endIndex = i+j;
+            A[0] = startIndex; A[1] = endIndex;
+            return A;  
+        }
         return A;
     }
 }

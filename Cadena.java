@@ -67,7 +67,7 @@ public class Cadena implements Total_caracters{
     
     public void Calculate_Entropy(int adicional){
         int dictionary = 0;
-        dictionary += adicional;                //Dependiendo de si haya caracteres l33t o mayusculas, añade 1 al diccionario per caracter
+        dictionary += adicional;                //Dependiendo de si haya caracteres l33t o mayusculas intercaladas, añade 1 al diccionario per caracter
         if(digitsExist) dictionary += TOTALDIGITS;
         if(lowerExist) dictionary += TOTALLOWER;
         if(upperExist) dictionary += TOTALUPPER;

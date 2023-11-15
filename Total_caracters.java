@@ -1,5 +1,3 @@
-package arquitectura_proyect;
-
 public interface Total_caracters {
     int TOTALDIGITS = 10;
     int TOTALLOWER = 27;
