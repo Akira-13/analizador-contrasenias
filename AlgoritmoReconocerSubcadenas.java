@@ -12,7 +12,6 @@ public class AlgoritmoReconocerSubcadenas extends Utils{
         try (BufferedReader reader = new BufferedReader(new FileReader("10000passwords.csv"))) {
             String line, purePassword, pureLine;
             purePassword = Utils.l33tMayusToMinus(subComun);        //Paso los caracteres l33t a alfabeticos
-            System.out.println(purePassword);
             String longestString = "";
             while ((line = reader.readLine()) != null) {
                 pureLine = Utils.l33tMayusToMinus(line);
@@ -32,7 +31,7 @@ public class AlgoritmoReconocerSubcadenas extends Utils{
 
     static int[] subFecha(String subFecha){
         int[] A ={-1,-1, -1};
-        String regex = "\\b(?:\\d{2}(?:(?:[-/]\\d{2}){1,2}(?:\\d{2}|\\d{4})|\\d{6}))\\b";
+        String regex = "\\d{2}\\d{2}\\d{2}|\\d{2}\\d{2}\\d{4}|\\d{2}/\\d{2}/\\d{2}|\\d{2}/\\d{2}/\\d{4}|\\d{2}-\\d{2}-\\d{2}|\\d{2}-\\d{2}-\\d{4}";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(subFecha);
      
@@ -47,12 +46,12 @@ public class AlgoritmoReconocerSubcadenas extends Utils{
         while (matcher.find()) {
             String dateStr = matcher.group();
             for (SimpleDateFormat sdf : sdfs) {
-                counter++;
                 try {
                     sdf.parse(dateStr);         //Botará ParseException si no concuerda con el formato de fecha
                     int startIndex = subFecha.indexOf(dateStr);
                     int endIndex = startIndex + dateStr.length()-1;
                     A[0] = startIndex; A[1] = endIndex; A[2] = counter;     //Guardará cuál formato está usando
+                    counter++;
                     return A;
                 } catch (ParseException e) {/*Si no concuerda, continua al siguiente formato*/}
             }
@@ -108,11 +107,11 @@ public class AlgoritmoReconocerSubcadenas extends Utils{
 
     static int[] subRepeticion(String subRepeticion){
         int A[] = {-1,-1, 0};
+        int j=1;                    //Contador de caracteres    
         for(int i=0; i<subRepeticion.length()-1; i++){
-            int j=1;                    //Contador de caracteres
             char baseChar = subRepeticion.charAt(i);
             char nextChar = subRepeticion.charAt(i+j);
-            if(baseChar!=nextChar){continue;}
+            if(baseChar!=nextChar){ j=1; continue;}
             j++;
             while(baseChar==nextChar && i+j<subRepeticion.length()){
                 baseChar = nextChar;
@@ -121,7 +120,7 @@ public class AlgoritmoReconocerSubcadenas extends Utils{
             }
             j--;
             int startIndex = i;
-            int endIndex = i+j-1;
+            int endIndex = i+j;
             A[0] = startIndex; A[1] = endIndex;
             return A;  
         }

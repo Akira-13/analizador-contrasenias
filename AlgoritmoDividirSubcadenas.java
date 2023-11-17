@@ -83,15 +83,14 @@ public class AlgoritmoDividirSubcadenas{
             if(isBrute){
                 type = 6;
             }
-            System.out.println("+++++++++++++++++");
+           /*  System.out.println("+++++++++++++++++");
             System.out.println(type);
             System.out.println(beginIndex);
             System.out.println(endIndex);
             System.out.println(A[longestIndex][2]);
-
+            */
             String subCadena = cadenaAnalizar.substring(beginIndex, endIndex+1);
             if(subCadena == "") continue;
-            System.out.println(subCadena);
             String stringType = Integer.toString(type);
             if(isBrute || subCadena == cadenaAnalizar){
                     if(type == 1 || type == 2){
