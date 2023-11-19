@@ -1,5 +1,3 @@
-package arquitectura_proyect;
-
 import java.util.Scanner;
 
 public class Verificator {

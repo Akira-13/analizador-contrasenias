@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-public class AlgoritmoReconocerSubcadenas extends Utils{ 
+class AlgoritmoReconocerSubcadenas extends Utils{ 
     static int[] subContComun(String subComun){
         int[] A ={-1,-1,-1};
         try (BufferedReader reader = new BufferedReader(new FileReader("10000passwords.csv"))) {
@@ -51,9 +51,8 @@ public class AlgoritmoReconocerSubcadenas extends Utils{
                     int startIndex = subFecha.indexOf(dateStr);
                     int endIndex = startIndex + dateStr.length()-1;
                     A[0] = startIndex; A[1] = endIndex; A[2] = counter;     //Guardará cuál formato está usando
-                    counter++;
                     return A;
-                } catch (ParseException e) {/*Si no concuerda, continua al siguiente formato*/}
+                } catch (ParseException e) {                    counter++;}
             }
         }
         return A;

@@ -1,8 +1,6 @@
-package arquitectura_proyect;
-
 import java.util.Random;
 
-public class Generate_new_password extends Cadena{
+public class Generate_new_password extends Password{
     static Random ran = new Random();
     static Verificator ver = new Verificator();
     private int newLength;
@@ -11,11 +9,10 @@ public class Generate_new_password extends Cadena{
     
     Generate_new_password(String password){
         super(password);
-        
         System.out.println("Ingrese el tamaño de su nueva contraseña");
         while(true){
             newLength = ver.int_greater_zero();
-            if(newLength <= super.cadena_length()){
+            if(newLength <= super.password.length()){
                 System.out.println("Ingrese un valor mayor a su longitud original");
             }else{
                 break;
@@ -46,22 +43,22 @@ public class Generate_new_password extends Cadena{
     }
     
     public void generateNewPassword(){
-        char[] chPass = super.return_cadena().toCharArray();
+        char[] chPass = super.password.toCharArray();
         char[] newPass = new char[newLength];
         int cont0 = 0, cont1 = 0, j = 0;
         int[] bin = new int [newLength];
         
         for(int i = 0; i < newLength; i++){
-            if(cont1 < (newLength - super.cadena_length()) && cont0 < super.cadena_length()){
+            if(cont1 < (newLength - super.password.length()) && cont0 < super.password.length()){
                 bin[i] = ran.nextInt(2);
                 if(bin[i] == 1){
                     cont1++;
                 }else if(bin[i] == 0){
                     cont0++;
                 }
-            }else if (cont1 >= newLength - super.cadena_length()){
+            }else if (cont1 >= newLength - super.password.length()){
                 bin[i] = 0;
-            }else if (cont0 >= super.cadena_length()){
+            }else if (cont0 >= super.password.length()){
                 bin[i] = 1;
             }
         }
@@ -104,7 +101,10 @@ public class Generate_new_password extends Cadena{
     
     @Override
     public String toString(){
-        return "Su nueva contraseña es la siguiente: " + newPassword;
+        return "Su nueva contraseña es la siguiente: " + newPassword + "\n";
     }
-    
+ 
+    public String getNewPassword(){
+        return newPassword; 
+    }
 }

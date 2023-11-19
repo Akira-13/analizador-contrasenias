@@ -1,13 +1,10 @@
 import java.util.Scanner;
 import java.util.Random;
 
-public class Sugestions_passwords {
+class Sugestions_passwords {
     static Scanner sc = new Scanner(System.in);
     static Random ran = new Random();
-    public static void main(String[] args) {
-        System.out.println("Ingrese el arreglo a analizar: ");
-        String password = sc.nextLine();
-        
+    static String newSuggestion(String password) {
         int t = password.length();
         int cont1 = 0, cont0 = 0, j = 0;
         int q = t + ((t/2)+1);
@@ -31,12 +28,6 @@ public class Sugestions_passwords {
             }
         }
         
-        for(int i : ver){
-            System.out.print(i);
-        }
-        
-        System.out.println();
-        
         for(int i = 0; i < q; i++){
             if(ver[i] == 0){
                 new_password[i] = ch_password[j];
@@ -45,10 +36,7 @@ public class Sugestions_passwords {
                 new_password[i] = (char)nuevo_caracter();
             }
         }
-        
-        for(char c : new_password){
-            System.out.print(c);
-        } 
+        return new String(new_password);
     }
     
     static int nuevo_caracter(){
