@@ -101,7 +101,7 @@ public class Generate_new_password extends Password{
     
     @Override
     public String toString(){
-        return "Su nueva contraseña es la siguiente: " + newPassword + "\n";
+        return "Su nueva contraseña es la siguiente: " + newPassword;
     }
  
     public String getNewPassword(){

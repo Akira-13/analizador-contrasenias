@@ -118,6 +118,8 @@ public class AlgoritmoDividirSubcadenasYCalcularEntropia{
             subpasswordsArray[m] = new Password(subPassword.password, subPassword.flag);
             m++;
         }
+
+
         return subpasswordsArray;
     }
 

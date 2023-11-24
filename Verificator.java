@@ -4,6 +4,7 @@ public class Verificator {
     static Scanner sc = new Scanner(System.in);
     public String validateString(){ 
         while(true){
+            System.out.print("Ingrese su contraseña: ");
             String newString = sc.nextLine();
             if("".equals(newString)){
                 System.out.println("Por favor, ingrese un arreglo no vacío");
