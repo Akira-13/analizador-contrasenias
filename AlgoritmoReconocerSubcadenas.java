@@ -60,7 +60,7 @@ class AlgoritmoReconocerSubcadenas extends Utils{
 
     static int[] subAño(String subAño){
         int A[] = {-1,-1, 0};
-        String regex = "\\bd{4}\\b";
+        String regex = "\\d{4}";
         Matcher matcher = Pattern.compile(regex).matcher(subAño);
         while(matcher.find()){
             int year = Integer.parseInt(matcher.group());

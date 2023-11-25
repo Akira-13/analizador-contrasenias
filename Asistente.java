@@ -1,14 +1,13 @@
 public class Asistente {
-    static void pedir_password(){
+    void pedir_password(){
         Verificator verificar = new Verificator();
         String input = new String(verificar.validateString());
         Password pass = new Password(input);
-        AlgoritmoDividirSubcadenasYCalcularEntropia prueba = new AlgoritmoDividirSubcadenasYCalcularEntropia();
         
-        String[] alertas = {"Anio en su contraseña","Secuencia en su contraseña","Repeticiones en su contraseña","Fuerza bruta"};
-        Password[] problemas = prueba.dividirSubcadenas(pass);
+        String[] alertas = {"Anio en su contraseña","Secuencia en su contraseña","Repeticiones en su contraseña"};
+        Password[] problemas = AlgoritmoDividirSubcadenasYCalcularEntropia.dividirSubcadenas(pass);
         for(Password i:problemas){
-            if(i.flag.length() == 1){
+            if(i.flag.length() == 1 && i.flag.charAt(0) != '6'){
                 System.out.println(i.password + " PROBLEMA DE SEGURIDAD: " + alertas[Integer.parseInt(i.flag)- 3]);
                 System.out.println();
             }
