@@ -1,34 +1,31 @@
-/*
-Busca la partición de subcadenas con la menor entropía posible.
-*Buscará primero las entradas que pertenezcan a las contraseñas más comunes
-*Luego, pasará por los demás tipos de subcadenas para ver si son fechas, años, secuencias o repeticiones
-*Por descarte, cualquier subcadena que no sea de estos tipos será de tipo "Brute Force"
-
-*Empieza con las subcadenas de contraseñas comunes. Luego fechas, luego años, luego secuencias y repeticiones.
-*Cuando reconozca una de estas, la separa y la guarda en un LinkedList con una etqiueta.
-*los años, secuencias y repeticiones son guardadas con las etiquetas 3, 4 y  5 respectivamente.
-*6 indica brute force y es el que es por defecto cuando no encaja en ninguna otra categoría
-*Las contraseñas comunes tienen una etiqueta de dos numeros. El primero siempre es 1, el segundo indica el numero de alternancias
-*l33t y mayus y minus
-*Igualmente con las fechas, solo que indica qué formato de fecha usa para que sea más fácil calcular su entropía
-
-*!! La entropía total de la contraseña será la suma de las entropías de las subcadenas !!
-*La razón de esto es que la entropía es el logaritmo en base dos del número de intentos. 
-*El hacker iterará por todas las posibles combinaciones de tipo "palabra", luego "palabra-palabra", 
-*luego "palabra-BruteForce", y así. Entonces, se multiplican los numeros de intentos en cada combinación, por principio de multiplicación
-*Si se aplica logaritmo en base 2 a esta multiplicación de intentos, se obtiene la suma de las entropías de las subcadenas!
-
-*Por supuesto, esto asume que el hacker ya sabe de antemano qué patrón se está usando. Esto es conveniente, ya que se
-*subestima la seguridad de la contraseña de esta forma.
-*...Además, no somos data scientist para modelar qué contraseñas son más comunes que otras y usar la fórmula de entropía en cada una.24/
-*/
-
 import java.util.LinkedList;
 
 public class AlgoritmoDividirSubcadenasYCalcularEntropia{
     final static int CATEGORIASENTROPIA = 5;
     final static int FLAGSMAX = 3;
-    //DIVIDE
+        /*
+        *Este algoritmo divide una cadena dada en subcadenas según su tipo de contraseña
+        *La idea es que verifica si tiene subcadenas sin clasificar al inicio de un LinkedList en cada iteración
+        *Si es que la primera está sin clasificar, la analiza, clasifica alguna subcadena que tenga y la coloca al final
+        *Las subcadenas restantes de esa subcadena son colocadas al inicio nuevamente.
+
+        *Por ejemplo. Empezamos con abcdeQwerty.
+        *Esta entra al LinkedList sin clasificar
+        *Como encuentra una subcadena al inicio sin clasificar, empieza el ciclo
+        *Reconoce que la cadena "abcdeQwerty" tiene la contraseña común Qwerty, la quita de "abcdeQwerty" y la coloca al final con su categoría
+        *"abcde" es colocada al inicio sin clasificar.
+        *Reconoce que "abcde" está sin clasificar, empieza nuevamente.
+        *Termina cuando ya no hayan cadenas al inicio sin clasificar
+        
+        *Tomar en cuenta la clase "Password", que es solo la contraseña como String y su clasificación como String también
+        *También almacena entropía, pero solo es necesario en el cálculo de entropía.
+        *En primer lugar, se crea un LinkedList de Password y se agrega como primer elemento a la contraseña ingresada
+        *Esta contraseña será de tipo "0", sin clasificar.
+        *Luego, se crea una matriz A que almacenará el índice que retorna cada método de AlgoritmoReconocerSubcadenas
+        *La contraseña será pasada por cada método. Si se encuentra alguna subcadena como Contraseña Común o Secuencia, se guarda 
+        *El índice en la matriz A. Si no, solo tiene -1
+        *Continua más abajo
+        */
     static Password[] dividirSubcadenas(Password password){
         LinkedList<Password> passwords = new LinkedList<>();
         passwords.add(password);   
@@ -37,11 +34,6 @@ public class AlgoritmoDividirSubcadenasYCalcularEntropia{
             A[i] = new int[FLAGSMAX];
         }
         while(passwords.peek().flag == "0"){        
-            /*Todo este algoritmo subdivide la contraseña y las clasifica según su tipo
-            *Se detiene cuando deje de encontrar contraseñas sin clasificar
-            *Las contraseñas sin clasificar siempre se colocan primero
-            *Las que ya están clasificadas al final
-            */
             //FOR DEBUGGING
         /*     int k = 0;
         for (Password item : passwords) {
@@ -73,18 +65,34 @@ public class AlgoritmoDividirSubcadenasYCalcularEntropia{
                     }
                 }
             }
-            type = longestIndex+1;
+            /*
+            *Una vez se tienen los índices, se buscan los que representen la subcadena más larga. O sea, los que tengan mayor diferencia
+            *Si se encuentra una subcadena de tipo Contraseña Común pero esta está contenida en una contraseña del tipo Secuencia, se dará 
+            *prioridad a Secuencia por ser más larga.
+            *Lo más probable, sin embargo, es que Contraseña Común tenga prioridad en la mayoría de casos.
+            */
+            type = longestIndex+1;   
+            /*
+            *El tipo de contraseña está represntado por un número. La primera cifra indicará de qué tipo es del 1 al 6, la segunda para el caso de
+            *Contraseña Común indica las alteraciones l33t y mayus-minus, y para fechas indica qué formato de fecha usa. Esto será importante 
+            *para el cálculo de entropía.
+            */
             beginIndex = A[longestIndex][0]; endIndex = A[longestIndex][1];       
             if(isBrute){
                 type = 6;
                 beginIndex = 0; endIndex = cadenaAnalizar.length()-1;
             }
+            //Si la contraseña no encaja en ninguna categoría (Matriz A llena de -1), significa que la contraseña pasada es de tipo fuerza bruta y 
+            //el tipo guardado es 6
+            
         /*  System.out.println("+++++++++++++++++");
             System.out.println(type);
             System.out.println(beginIndex);
             System.out.println(endIndex);
             System.out.println(A[longestIndex][2]);
             */
+
+            
             String subCadena = cadenaAnalizar.substring(beginIndex, endIndex+1);
             if(subCadena == "") continue;
             String stringType = Integer.toString(type);
@@ -99,6 +107,7 @@ public class AlgoritmoDividirSubcadenasYCalcularEntropia{
             if(type == 1 || type == 2){
                 stringType += Integer.toString(A[longestIndex][2]);
             }
+
             Password subPassword = new Password(subCadena, stringType);
             String resto1 = cadenaAnalizar.substring(0, beginIndex);
             String resto2 = cadenaAnalizar.substring(endIndex+1);
@@ -111,6 +120,14 @@ public class AlgoritmoDividirSubcadenasYCalcularEntropia{
                 passwords.addFirst(resto2Password);
             }
             passwords.addLast(subPassword);
+            /*
+            *El código de arriba crea un nuevo objeto Password con la nueva subcadena reconocida y su tipo
+            *Esta subcadena será colocada al final del LinkedList. Tiene varios ifs y else porque uhh mi cerebro no daba para nada elegante en ese momento
+            *Tan solo crea la subcadena según varios casos en los que su tipo existe pero es una cadena vacía o cosas así
+            *Además, las subcadenas restantes son agregadas al inicio del LinkedList con tipo "0" (sin clasificar).
+            *Con subcadenas restantes me refiero a que si, por ejemplo, de una cadena de longitud 10 se reconoce una contraseña común en los índices
+            *4 y 8, las subcadenas del 0 al 3 y del 9 al 10 serán las restantes.
+            */
         }
         Password[] subpasswordsArray = new Password[passwords.size()]; 
         int m = 0;
@@ -119,11 +136,18 @@ public class AlgoritmoDividirSubcadenasYCalcularEntropia{
             m++;
         }
 
-
+        //El LinkedList se pasa a un array de Passwords ya clasificados. Es lo que todo este método retorna.
+        //En pocas palabras: Todo este algoritmo agarra una contraseña, la subdivide, la clasifica y la retorna 
         return subpasswordsArray;
     }
 
     //SUMA
+    /*
+    *Con el arreglo generado del método anterior, con cada contraseña ya separada y clasificada, se procede a calcular las entropías de cada subcadena
+    *Obviamente, hay una forma de calcular cada entropía según su tipo
+    *Cada uno de estos se ve en AlgoritmoCalcularEntropia
+    *Se retorna el arreglo con las entropías en cada uno ya calculada.
+    */
     static Password[] calcularEntropias(Password[] subpasswords){
         for(int i = 0; i<subpasswords.length; i++){
             switch(subpasswords[i].flag.charAt(0)){
