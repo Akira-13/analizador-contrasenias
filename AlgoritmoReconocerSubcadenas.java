@@ -25,17 +25,19 @@ class AlgoritmoReconocerSubcadenas extends Utils{
             String line, purePassword, pureLine;
             purePassword = Utils.l33tMayusToMinus(subComun);        //Paso los caracteres l33t a alfabeticos
             String longestString = "";
+            String passwordFound ="";
             while ((line = reader.readLine()) != null) {
                 pureLine = Utils.l33tMayusToMinus(line);
                 if(purePassword.contains(pureLine) && pureLine.length()>longestString.length()){
                     longestString = pureLine;
+                    passwordFound = line;
                 }
             }
             if(longestString == "") return A;
             int startIndex = purePassword.indexOf(longestString);
             int endIndex = startIndex + longestString.length()-1;
             A[0] = startIndex; A[1] = endIndex;
-            A[2] = Utils.countDiff(subComun.substring(startIndex, endIndex+1), longestString);
+            A[2] = Utils.countDiff(subComun.substring(startIndex, endIndex+1), passwordFound);
             return A;
         } catch (IOException e) {e.printStackTrace();}
         return A;
