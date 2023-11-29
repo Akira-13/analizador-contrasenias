@@ -1,3 +1,6 @@
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.MathContext;
 public class Asistente {
     void pedir_password(){
         Verificator verificar = new Verificator();
@@ -63,20 +66,37 @@ public class Asistente {
                 }
                 System.out.println("Entropia total: " + entropia);
                 j =-1;
-            case 2: 
-                entropia = 0;
-                Password suggestionPassword = new Password(Sugestions_passwords.newSuggestion(password.password), "0");
-                Password[] suggestionDivided = AlgoritmoDividirSubcadenasYCalcularEntropia.dividirSubcadenas(suggestionPassword);
-                suggestionDivided = AlgoritmoDividirSubcadenasYCalcularEntropia.calcularEntropias(suggestionDivided);
-                System.out.print("Nueva contraseña: ");
-                for(int i = 0; i<suggestionDivided.length; i++){
-                    System.out.print(suggestionDivided[i].password);
-                    entropia += suggestionDivided[i].entropia;
+            case 2:
+                System.out.println("\t PROBLMEAS DE SEGURIDAD");
+                for(Password i:problemas){
+                    if(i.flag.length() == 1 && i.flag.charAt(0) != '6'){
+                        System.out.println(i.password + " es un(a) "+alertas[Integer.parseInt(i.flag)- 3]);
+                        System.out.println("Los años, secuencias y repeticiones son faciles de atacar.");
+                    }
+                    if(i.flag.length() == 2){
+                        int valor1 = i.flag.charAt(0) -'0';
+                        int valor2 = i.flag.charAt(1) - '0';
+                        if(valor1 == 1){
+                            System.out.println(i.password + " Es una contraseña común");
+                            System.out.println("Esta subcadena se puede obtener en un diccionario.");
+                        }
+                        else{
+                            System.out.println(i.password + "es una fecha");
+                            System.out.println("Las fechas pueden ser atacadas con mayor facilidad, se sugiere cambiar la subcadena");
+                        }
+                    }
                 }
+                BigDecimal attemptsPerSecond = new BigDecimal(BigInteger.valueOf(1000000000));
+                BigDecimal two = new BigDecimal(2);
+                BigDecimal totalAttempts = two.pow((int)Math.round(entropia), MathContext.DECIMAL128);
+                BigDecimal totalSeconds = totalAttempts.divide(attemptsPerSecond, MathContext.DECIMAL128);
+
+                BigDecimal[] hours = totalSeconds.divideAndRemainder(BigDecimal.valueOf(3600));
+                BigDecimal[] minutes = hours[1].divideAndRemainder(BigDecimal.valueOf(60));
+                BigDecimal[] seconds = minutes[1].divideAndRemainder(BigDecimal.valueOf(1));
                 System.out.println();
-                System.out.println("Entropia total: " + entropia);
-                j=-1;
-            case 3: j=-1;
-        }
+                System.out.println("Tiempo estimado: " + hours[0] + " horas, " + minutes[0] + " minutos, " + seconds[0] + " segundos");
+                    case 3: j=-1;
+                }
     }
 }
