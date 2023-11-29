@@ -66,6 +66,7 @@ public class Asistente {
                 }
                 System.out.println("Entropia total: " + entropia);
                 j =-1;
+                break;
             case 2:
                 System.out.println("\t PROBLMEAS DE SEGURIDAD");
                 for(Password i:problemas){
@@ -96,6 +97,7 @@ public class Asistente {
                 BigDecimal[] seconds = minutes[1].divideAndRemainder(BigDecimal.valueOf(1));
                 System.out.println();
                 System.out.println("Tiempo estimado: " + hours[0] + " horas, " + minutes[0] + " minutos, " + seconds[0] + " segundos");
+                break;
                     case 3: j=-1;
                 }
     }
