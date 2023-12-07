@@ -11,15 +11,14 @@ public class AlgoritmoCalcularEntropia implements Constantes{
         *Como este código solo reconoce contraseñas comunes, solo se considera ese caso.
         *No es nada especial. Primero reconoce cuántas alteraciones tiene, el cual es el número a partir de la segunda cifra en 
         *el campo "flag" de Password.
-        *Luego, calcula la entropía del siguiente modo: El pool de datos es el de 10000 contraseñas MÁS las alteraciones que tiene la contraseña
+        *Luego, calcula la entropía del siguiente modo: El pool de datos es el de 10000 contraseñas MÁS las posibles combinaciones posibles con las alteraciones
         *Esto es porque, claramente qw3rtY (una contraseña común con alteraciones) y "qwerty" son diferentes.
-        *Pero un hacker puede iterar entre todas las posibles alteraciones de una contraseña común para llegar a la combinación que 
-        *un usuario use.
-        *Entonces, cada alteración se considera como si se creara una contraseña diferente y agrega en 1 al pool de datos de 10000 contraseñas
-        *Luego, la longitud es 1 porque, gracias al algoritmo de dividirSubcadenas, solo se recibe UNA contraseña común. 
+        *Pero para que un hacker llegue a qw3rtY probablemente tuvo que pasar por qw3rty y luego qwertY, por lo que dos alteraciones agregan
+        *(2^2)-1 nuevas contraseñas (considerando qw3rtY).
+        *Esta cantidad se suma al número total de contraseñas.
         */
         int alts = Integer.parseInt(password.flag.substring(1));
-        return Utils.calcularEntropia(10000+alts, 1);
+        return Utils.calcularEntropia(10000+pow(2.0, (float)alts)-1, 1);
     }
 
     static float entropiaFecha(Password password){
